@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/productservice';
+import { OrderService } from '../../service/order.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Order } from 'src/app/api/order.model';
 
 @Component({
     templateUrl: './crud.component.html',
@@ -10,17 +10,17 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class CrudComponent implements OnInit {
 
-    productDialog: boolean;
+    orderDialog: boolean;
 
-    deleteProductDialog: boolean = false;
+    deleteorderDialog: boolean = false;
 
-    deleteProductsDialog: boolean = false;
+    deleteordersDialog: boolean = false;
 
-    products: Product[];
+    orders: Order[];
 
-    product: Product;
+    order: Order;
 
-    selectedProducts: Product[];
+    selectedorders: Order[];
 
     submitted: boolean;
 
@@ -30,11 +30,11 @@ export class CrudComponent implements OnInit {
 
     rowsPerPageOptions = [5, 10, 20];
 
-    constructor(private productService: ProductService, private messageService: MessageService,
+    constructor(private orderService: OrderService, private messageService: MessageService,
                 private confirmationService: ConfirmationService) {}
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
+        this.orderService.getOrders().then(data => this.orders = data);
 
         this.cols = [
             {field: 'name', header: 'Name'},
@@ -52,73 +52,67 @@ export class CrudComponent implements OnInit {
     }
 
     openNew() {
-        this.product = {};
         this.submitted = false;
-        this.productDialog = true;
+        this.orderDialog = true;
     }
 
-    deleteSelectedProducts() {
-        this.deleteProductsDialog = true;
+    deleteSelectedorders() {
+        this.deleteordersDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = {...product};
-        this.productDialog = true;
+    editorder(order: Order) {
+        this.order = {...order};
+        this.orderDialog = true;
     }
 
-    deleteProduct(product: Product) {
-        this.deleteProductDialog = true;
-        this.product = {...product};
+    deleteorder(order: Order) {
+        this.deleteorderDialog = true;
+        this.order = {...order};
     }
 
     confirmDeleteSelected(){
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
-        this.selectedProducts = null;
+        this.deleteordersDialog = false;
+        this.orders = this.orders.filter(val => !this.selectedorders.includes(val));
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'orders Deleted', life: 3000});
+        this.selectedorders = null;
     }
 
     confirmDelete(){
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-        this.product = {};
+        this.deleteorderDialog = false;
+        this.orders = this.orders.filter(val => val.orderNo !== this.order.orderNo);
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'order Deleted', life: 3000});
+        // this.order = {};
     }
 
     hideDialog() {
-        this.productDialog = false;
+        this.orderDialog = false;
         this.submitted = false;
     }
 
-    saveProduct() {
+    saveorder() {
         this.submitted = true;
 
-        if (this.product.name.trim()) {
-            if (this.product.id) {
+        if (this.order.productName.trim()) {
+            if (this.order) {
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value: this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
+                this.order.inventoryStatus = this.order.inventoryStatus.value ? this.order.inventoryStatus.value: this.order.inventoryStatus;
+                this.messageService.add({severity: 'success', summary: 'Successful', detail: 'order Updated', life: 3000});
             } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-                this.products.push(this.product);
-                this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+                this.order.inventoryStatus = this.order.inventoryStatus ? this.order.inventoryStatus.value : 'INSTOCK';
+                this.orders.push(this.order);
+                this.messageService.add({severity: 'success', summary: 'Successful', detail: 'order Created', life: 3000});
             }
 
-            this.products = [...this.products];
-            this.productDialog = false;
-            this.product = {};
+            this.orders = [...this.orders];
+            this.orderDialog = false;
         }
     }
 
-    findIndexById(id: string): number {
+    findIndexById(orderNo: number): number {
         let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
+        for (let i = 0; i < this.orders.length; i++) {
+            if (this.orders[i].orderNo === orderNo) {
                 index = i;
                 break;
             }

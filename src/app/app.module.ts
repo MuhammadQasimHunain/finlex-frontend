@@ -105,11 +105,8 @@ import { InvalidStateComponent } from './components/invalidstate/invalidstate.co
 import { InputComponent } from './components/input/input.component';
 import { ButtonComponent } from './components/button/button.component';
 import { TableComponent } from './components/table/table.component';
-import { ListComponent } from './components/list/list.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { PanelsComponent } from './components/panels/panels.component';
-import { OverlaysComponent } from './components/overlays/overlays.component';
-import { MediaComponent } from './components/media/media.component';
 import { MenusComponent } from './components/menus/menus.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { MiscComponent } from './components/misc/misc.component';
@@ -127,13 +124,7 @@ import { PersonalComponent } from './components/menus/personal.component';
 import { SeatComponent } from './components/menus/seat.component';
 import { LandingComponent } from './components/landing/landing.component';
 
-import { CountryService } from './service/countryservice';
-import { CustomerService } from './service/customerservice';
-import { EventService } from './service/eventservice';
-import { IconService } from './service/iconservice';
-import { NodeService } from './service/nodeservice';
-import { PhotoService } from './service/photoservice';
-import { ProductService } from './service/productservice';
+import { OrderService } from './service/order.service';
 import { MenuService } from './service/app.menu.service';
 import { ConfigService } from './service/app.config.service';
 import { LoginComponent } from './components/login/login.component';
@@ -246,10 +237,8 @@ import { AccessComponent } from './components/access/access.component';
         InputComponent,
         ButtonComponent,
         TableComponent,
-        ListComponent,
         TreeComponent,
         PanelsComponent,
-        OverlaysComponent,
         MenusComponent,
         MessagesComponent,
         MessagesComponent,
@@ -263,7 +252,6 @@ import { AccessComponent } from './components/access/access.component';
         TimelineComponent,
         BlocksComponent,
         BlockViewer,
-        MediaComponent,
         PaymentComponent,
         ConfirmationComponent,
         PersonalComponent,
@@ -276,8 +264,7 @@ import { AccessComponent } from './components/access/access.component';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MenuService, ConfigService
+        OrderService, MenuService, ConfigService
     ],
     bootstrap: [AppComponent]
 })

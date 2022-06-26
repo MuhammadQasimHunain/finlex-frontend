@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { Customer, Representative } from '../../api/customer';
-import { CustomerService } from '../../service/customerservice';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/productservice';
+import { OrderService } from '../../service/order.service';
+import { Order } from '../../api/order.model';
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService } from 'primeng/api'
+import { OrderList } from 'primeng/orderlist';
 
 @Component({
     templateUrl: './table.component.html',
@@ -26,21 +26,14 @@ import { MessageService, ConfirmationService } from 'primeng/api'
 })
 export class TableComponent implements OnInit {
 
-    customers1: Customer[];
-
-    customers2: Customer[];
-
-    customers3: Customer[];
-
-    selectedCustomers1: Customer[];
-
-    selectedCustomer: Customer;
-
+    order1 : Order;
+    order2: Order;
+    order3: Order;
     representatives: Representative[];
 
     statuses: any[];
 
-    products: Product[];
+    products: Order[];
 
     rowGroupMetadata: any;
 
@@ -58,20 +51,9 @@ export class TableComponent implements OnInit {
 
     @ViewChild('filter') filter: ElementRef;
 
-    constructor(private customerService: CustomerService, private productService: ProductService, private messageService: MessageService, private confirmService: ConfirmationService, private cd: ChangeDetectorRef) {}
+    constructor(private orderrService: OrderService, private messageService: MessageService, private confirmService: ConfirmationService, private cd: ChangeDetectorRef) {}
 
     ngOnInit() {
-        this.customerService.getCustomersLarge().then(customers => {
-            this.customers1 = customers;
-            this.loading = false;
-
-            // @ts-ignore
-            this.customers1.forEach(customer => customer.date = new Date(customer.date));
-        });
-        this.customerService.getCustomersMedium().then(customers => this.customers2 = customers);
-        this.customerService.getCustomersLarge().then(customers => this.customers3 = customers);
-        this.productService.getProductsWithOrdersSmall().then(data => this.products = data);
-
         this.representatives = [
             {name: 'Amy Elsner', image: 'amyelsner.png'},
             {name: 'Anna Fali', image: 'annafali.png'},
@@ -102,31 +84,11 @@ export class TableComponent implements OnInit {
     updateRowGroupMetaData() {
         this.rowGroupMetadata = {};
 
-        if (this.customers3) {
-            for (let i = 0; i < this.customers3.length; i++) {
-                const rowData = this.customers3[i];
-                const representativeName = rowData.representative.name;
-
-                if (i === 0) {
-                    this.rowGroupMetadata[representativeName] = { index: 0, size: 1 };
-                }
-                else {
-                    const previousRowData = this.customers3[i - 1];
-                    const previousRowGroup = previousRowData.representative.name;
-                    if (representativeName === previousRowGroup) {
-                        this.rowGroupMetadata[representativeName].size++;
-                    }
-                    else {
-                        this.rowGroupMetadata[representativeName] = { index: i, size: 1 };
-                    }
-                }
-            }
-        }
     }
 
     expandAll() {
         if(!this.isExpanded){
-          this.products.forEach(product => this.expandedRows[product.name] = true);
+        //   this.products.forEach(product => this.expandedRows[product.name] = true);
 
         } else {
           this.expandedRows={};

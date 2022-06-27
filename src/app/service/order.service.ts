@@ -16,11 +16,8 @@ export class OrderService {
     getOrdersByEmail(email: string) {
         return this.http.get<any>(this.baseURL + 'Orders/GetOrdersByPersonalEmail?email=' + email);
     }
-    getOrdersMixed() {
-        return this.http.get<any>('assets/demo/data/Orders-mixed.json');
-    }
-
-    getOrdersWithOrdersSmall() {
-        return this.http.get<any>('assets/demo/data/Orders-orders-small.json');
+    
+    postOrder(order: any) {
+        return this.http.post<any>(this.baseURL + 'Orders/PutPostOrder',order);
     }
 }

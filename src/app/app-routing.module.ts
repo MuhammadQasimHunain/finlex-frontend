@@ -7,6 +7,7 @@ import { CrudComponent } from './components/crud/crud.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { FormLayoutComponent } from './components/formlayout/formlayout.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -15,8 +16,8 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
                 children: [
                     {path: '', component: DashboardComponent},
                     {path: 'table/person', component: CrudComponent},
-                    {path: 'uikit/menu', loadChildren: () => import('./components/menus/menus.module').then(m => m.MenusModule)},
-                    {path: 'crud/order', component: TableComponent},
+                    {path: 'table/order', component: TableComponent},
+                    {path: 'crud/order', component: FormLayoutComponent},
                 ],
             },
             {path:'pages/login', component: LoginComponent},

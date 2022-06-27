@@ -20,15 +20,23 @@ export class CrudComponent implements OnInit {
 
     ngOnInit() {
         // this.messageService.add({severity: 'success', summary: 'Successful', detail: 'order Updated', life: 3000});
+        this.loadAllData();
+    }
+    loadAllData(){
         this.personService.getAllPersons().subscribe(data => {
             this.persons = data;
         })
     }
-
-    handleSearch() {
-        this.personService.getAllPersonByEmail(this.emailSearch).subscribe(data => {
-            this.persons.push(data);
-        })
+    handleSearch($event) {
+        if(this.emailSearch.length > 0) {
+            this.personService.getAllPersonByEmail(this.emailSearch).subscribe(data => {
+                this.persons = [];
+                this.persons.push(data);
+            })
+        }
+        else {
+            this.loadAllData();
+        }
     }
 
  

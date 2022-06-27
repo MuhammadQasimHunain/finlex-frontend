@@ -7,7 +7,15 @@
 				<i class="pi pi-search"></i>
 				<input type="text" pInputText [(ngModel)]="emailSearch" placeholder="Search">         
 			</span>
-			<button pButton type="button" label="Search" icon="pi pi-search" (onClick)="handleSearch()" iconPos="right" class="p-button-text p-button-text"></button>
+			<button 
+				pButton 
+				type="button"
+				label="Search" 
+				icon="pi pi-search"
+				id="editBtn"  
+				class="p-button-text p-button-text"
+				(click)="handleSearch($event)">
+		  </button> 
 
 			<p-table [value]="orders" scrollDirection="both" scrollHeight="400px" styleClass="mt-3">
 				<ng-template pTemplate="header">

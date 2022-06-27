@@ -33,15 +33,22 @@ export class TableComponent implements OnInit {
     constructor(private orderrService: OrderService, private messageService: MessageService, private confirmService: ConfirmationService, private cd: ChangeDetectorRef) {}
 
     ngOnInit() {
+        this.loadAllData();
+    }
+
+    loadAllData(){
         this.orderrService.getOrders().subscribe(data => {
             this.orders = data;
         })
     }
-
-    handleSearch() {
+    handleSearch($event) {
+        if(this.emailSearch.length > 0) {
         this.orderrService.getOrdersByEmail(this.emailSearch).subscribe(data => {
             this.orders = data;
-        })
+        })}
+        else {
+            this.loadAllData();
+        }
     }
     formatCurrency(value) {
         return value.toLocaleString('en-US', {style: 'currency', currency: 'USD'});

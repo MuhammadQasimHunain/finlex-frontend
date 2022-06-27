@@ -131,6 +131,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AccessComponent } from './components/access/access.component';
+import { PersonService } from './service/person.service';
 
 @NgModule({
     imports: [
@@ -264,7 +265,7 @@ import { AccessComponent } from './components/access/access.component';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        OrderService, MenuService, ConfigService
+        OrderService, PersonService,  MenuService, ConfigService
     ],
     bootstrap: [AppComponent]
 })

@@ -6,33 +6,21 @@ import { Order } from '../api/order.model';
 @Injectable()
 export class OrderService {
 
+    baseURL : string = 'http://localhost:7206/';
     constructor(private http: HttpClient) { }
 
-    getOrdersSmall() {
-        return this.http.get<any>('assets/demo/data/Orders-small.json')
-        .toPromise()
-        .then(res => res.data as Order[])
-        .then(data => data);
-    }
-
     getOrders() {
-        return this.http.get<any>('assets/demo/data/Orders.json')
-        .toPromise()
-        .then(res => res.data as Order[])
-        .then(data => data);
+        return this.http.get<any>(this.baseURL + 'Orders/GetOrders');
     }
 
+    getOrdersByEmail(email: string) {
+        return this.http.get<any>(this.baseURL + 'Orders/GetOrdersByPersonalEmail?email=' + email);
+    }
     getOrdersMixed() {
-        return this.http.get<any>('assets/demo/data/Orders-mixed.json')
-        .toPromise()
-        .then(res => res.data as Order[])
-        .then(data => data);
+        return this.http.get<any>('assets/demo/data/Orders-mixed.json');
     }
 
     getOrdersWithOrdersSmall() {
-        return this.http.get<any>('assets/demo/data/Orders-orders-small.json')
-        .toPromise()
-        .then(res => res.data as Order[])
-        .then(data => data);
+        return this.http.get<any>('assets/demo/data/Orders-orders-small.json');
     }
 }
